@@ -1,13 +1,12 @@
 import { ChatOpenAI } from "@langchain/openai";
 import { ChatPromptTemplate } from "@langchain/core/prompts";
-import { JsonOutputParser } from "@langchain/core/output_parsers";
 import { LoadPromptTemplate } from '../utils/file.js';
 import { RoutingDecisionSchema, type RoutingDecision } from "../types.js";
 import { config } from "../config.js";
 
 export class Orchestrator {
   private llm: ChatOpenAI;
-  private chain: any;
+  private promptTemplate: ChatPromptTemplate;
 
   constructor() {
     this.llm = new ChatOpenAI({
@@ -16,22 +15,19 @@ export class Orchestrator {
       temperature: 0,
     });
 
-    this.chain = this.createRoutingChain();
+    this.promptTemplate = this.createPromptTemplate();
   }
 
   /**
-   * Create the routing chain with structured output
+   * Create the prompt template for routing
    */
-  private createRoutingChain() {
+  private createPromptTemplate() {
     const systemPrompt = LoadPromptTemplate('../prompts/routing.md');
-    const prompt = ChatPromptTemplate.fromMessages([
+    
+    return ChatPromptTemplate.fromMessages([
       ["system", systemPrompt],
       ["human", "User Query: {query}\n\nProvide routing decision as JSON:"],
     ]);
-
-    const parser = new JsonOutputParser();
-
-    return prompt.pipe(this.llm).pipe(parser);
   }
 
   /**
@@ -39,8 +35,17 @@ export class Orchestrator {
    */
   async route(query: string): Promise<RoutingDecision> {
     try {
-      const response = await this.chain.invoke({ query });
-      const validated = RoutingDecisionSchema.parse(response);
+      const messages = await this.promptTemplate.formatMessages({ query });
+      const response = await this.llm.invoke(messages as any);
+
+      const content = response.content as string;
+      const jsonMatch = content.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) {
+        throw new Error("No JSON found in response");
+      }
+
+      const parsedResponse = JSON.parse(jsonMatch[0]);
+      const validated = RoutingDecisionSchema.parse(parsedResponse);
 
       return validated;
     } catch (error) {

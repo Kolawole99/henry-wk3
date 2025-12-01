@@ -1,19 +1,25 @@
-import { ConversationalRetrievalQAChain } from "langchain/chains";
+import { createRetrievalChain } from "langchain/chains/retrieval";
+import { createHistoryAwareRetriever } from "langchain/chains/history_aware_retriever";
+import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
 import { ChatOpenAI } from "@langchain/openai";
-import { BufferMemory } from "langchain/memory";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { PromptTemplate } from "@langchain/core/prompts";
+import {
+  ChatPromptTemplate,
+  MessagesPlaceholder,
+  PromptTemplate,
+} from "@langchain/core/prompts";
+import { BaseMessage, HumanMessage, AIMessage } from "@langchain/core/messages";
+import { OpenAIClient, type LLMConfig } from "../utils/openai-client.js";
 import type { Department, AgentResponse } from "../types.js";
 import { config } from "../config.js";
-import { OpenAIClient, type LLMConfig } from "../utils/openai-client.js";
 
 export abstract class BaseAgent {
   protected department: Department;
   protected vectorStore: MemoryVectorStore;
   protected llm: ChatOpenAI;
   protected systemPrompt: string;
-  protected chain: ConversationalRetrievalQAChain;
-  protected memory: BufferMemory;
+  protected chain!: Awaited<ReturnType<typeof createRetrievalChain>>;
+  protected chatHistory: BaseMessage[] = [];
 
   constructor(
     department: Department,
@@ -30,33 +36,56 @@ export abstract class BaseAgent {
       ...llmConfig,
     });
 
-    this.memory = new BufferMemory({
-      memoryKey: "chat_history",
-      returnMessages: true,
-      outputKey: "text",
-    });
-
-    this.chain = this.createChain();
+    this.initializeChain();
   }
 
   /**
-   * Create the conversational retrieval chain
+   * Initialize the retrieval chain asynchronously
    */
-  private createChain(): ConversationalRetrievalQAChain {
-    const questionPrompt = this.getQuestionPrompt();
+  private async initializeChain(): Promise<void> {
+    this.chain = await this.createChain();
+  }
 
-    return ConversationalRetrievalQAChain.fromLLM(
-      this.llm,
-      this.vectorStore.asRetriever(config.rag.retrievalK),
-      {
-        memory: this.memory,
-        returnSourceDocuments: true,
-        qaChainOptions: {
-          type: "stuff",
-          prompt: questionPrompt,
-        },
-      }
-    );
+  /**
+   * Create the conversational retrieval chain using the new approach
+   */
+  private async createChain() {
+    const retriever = this.vectorStore.asRetriever(config.rag.retrievalK);
+
+    const contextualizeQSystemPrompt = `
+      Given a chat history and the latest user question which might reference context
+      in the chat history, formulate a standalone question which can be understood
+      without the chat history. Do NOT answer the question, just reformulate it if
+      needed and otherwise return it as is.`;
+
+    const contextualizeQPrompt = ChatPromptTemplate.fromMessages([
+      ["system", contextualizeQSystemPrompt],
+      new MessagesPlaceholder("chat_history"),
+      ["human", "{input}"],
+    ]);
+
+    const historyAwareRetriever = await createHistoryAwareRetriever({
+      llm: this.llm,
+      retriever,
+      rephrasePrompt: contextualizeQPrompt as any,
+    });
+
+    const questionPrompt = this.getQuestionPrompt();
+    const qaPrompt = ChatPromptTemplate.fromMessages([
+      ["system", questionPrompt.template],
+      new MessagesPlaceholder("chat_history"),
+      ["human", "{input}"],
+    ]);
+
+    const questionAnswerChain = await createStuffDocumentsChain({
+      llm: this.llm,
+      prompt: qaPrompt as any,
+    });
+
+    return await createRetrievalChain({
+      retriever: historyAwareRetriever,
+      combineDocsChain: questionAnswerChain,
+    });
   }
 
   /**
@@ -70,20 +99,27 @@ export abstract class BaseAgent {
    */
   async query(userQuery: string): Promise<AgentResponse> {
     try {
-      const response = await this.chain.call({
-        question: userQuery,
+      if (!this.chain) {
+        await this.initializeChain();
+      }
+
+      const response = await this.chain.invoke({
+        input: userQuery,
+        chat_history: this.chatHistory as any,
       });
 
+      this.chatHistory.push(new HumanMessage(userQuery));
+      this.chatHistory.push(new AIMessage(String(response.answer)));
+
       return {
-        answer: response.text,
-        sourceDocuments: response.sourceDocuments || [],
+        answer: response.answer as string,
+        sourceDocuments: response.context || [],
         department: this.department,
       };
     } catch (error) {
       console.error(`Error in ${this.department} agent:`, error);
-      throw new Error(
-        `Failed to get response from ${this.department} agent: ${error}`
-      );
+      
+      throw new Error(`Failed to get response from ${this.department} agent: ${error}`);
     }
   }
 
@@ -91,7 +127,7 @@ export abstract class BaseAgent {
    * Reset conversation memory
    */
   resetMemory(): void {
-    this.memory.clear();
+    this.chatHistory = [];
   }
 
   /**
