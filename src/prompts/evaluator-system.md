@@ -42,7 +42,7 @@ Calculate an **Overall Score** (weighted average):
 Provide brief feedback (2-3 sentences) explaining your scores.
 
 Respond with valid JSON matching this schema:
-{
+{{
   "relevance": 1-10,
   "accuracy": 1-10,
   "completeness": 1-10,
@@ -50,4 +50,4 @@ Respond with valid JSON matching this schema:
   "citationQuality": 1-10,
   "overallScore": calculated weighted average (1-10),
   "feedback": "Brief explanation"
-}
+}}
