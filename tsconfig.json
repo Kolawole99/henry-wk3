@@ -8,7 +8,7 @@
     "types": ["node"],
 
     // File Layout
-    "rootDir": "./src",
+    "rootDirs": ["./src", "./scripts"],
     "outDir": "./dist",
 
     // Other Outputs
