@@ -43,7 +43,7 @@ function parseConfig(): Config {
     return ConfigSchema.parse({
       openai: {
         apiKey: process.env.OPENAI_API_KEY,
-        baseURL: process.env.OPENROUTER_BASE_URL,
+        baseURL: process.env.OPENAI_BASE_URL,
       },
       langfuse: {
         secretKey: process.env.LANGFUSE_SECRET_KEY,
