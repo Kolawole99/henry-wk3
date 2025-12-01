@@ -65,10 +65,10 @@ Examples:
 - "My paycheck was wrong" → hr (ambiguous: could be HR or Finance, but HR handles payroll) (confidence: 0.75)
 
 Respond with valid JSON matching this schema:
-{
+{{
   "department": "hr" | "it_support" | "finance" | "legal",
   "confidence": 0.0 to 1.0,
   "reasoning": "Brief explanation of why you chose this department",
   "requiresEscalation": false (or true if sensitive),
   "keywords": ["keyword1", "keyword2", ...]
-}
+}}

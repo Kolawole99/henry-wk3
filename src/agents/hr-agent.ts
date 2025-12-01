@@ -1,4 +1,3 @@
-import { PromptTemplate } from "@langchain/core/prompts";
 import type { MemoryVectorStore } from "langchain/vectorstores/memory";
 import { LoadPromptTemplate } from '../utils/file.js';
 import { BaseAgent } from "./base-agent.js";
@@ -9,15 +8,12 @@ export class HRAgent extends BaseAgent {
     super("hr", vectorStore, systemPrompt);
   }
 
-  protected getQuestionPrompt(): PromptTemplate {
+  protected buildSystemMessage(): string {
     const template = LoadPromptTemplate('../prompts/hr-question.md');
 
-    return new PromptTemplate({
-      template,
-      inputVariables: ["context", "chat_history", "question"],
-      partialVariables: {
-        system_prompt: this.systemPrompt,
-      },
-    });
+    return template
+      .replace('{system_prompt}', this.systemPrompt)
+      .replace('{question}', '{input}')
+      .replace('{chat_history}', '');
   }
 }

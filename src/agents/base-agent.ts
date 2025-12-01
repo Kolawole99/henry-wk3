@@ -6,7 +6,6 @@ import { MemoryVectorStore } from "langchain/vectorstores/memory";
 import {
   ChatPromptTemplate,
   MessagesPlaceholder,
-  PromptTemplate,
 } from "@langchain/core/prompts";
 import { BaseMessage, HumanMessage, AIMessage } from "@langchain/core/messages";
 import { OpenAIClient, type LLMConfig } from "../utils/openai-client.js";
@@ -39,9 +38,6 @@ export abstract class BaseAgent {
     this.initializeChain();
   }
 
-  /**
-   * Initialize the retrieval chain asynchronously
-   */
   private async initializeChain(): Promise<void> {
     this.chain = await this.createChain();
   }
@@ -70,9 +66,9 @@ export abstract class BaseAgent {
       rephrasePrompt: contextualizeQPrompt as any,
     });
 
-    const questionPrompt = this.getQuestionPrompt();
+    const systemMessage = this.buildSystemMessage();
     const qaPrompt = ChatPromptTemplate.fromMessages([
-      ["system", questionPrompt.template],
+      ["system", systemMessage],
       new MessagesPlaceholder("chat_history"),
       ["human", "{input}"],
     ]);
@@ -89,10 +85,10 @@ export abstract class BaseAgent {
   }
 
   /**
-   * Get the custom prompt template for this agent
+   * Build the system message for the agent
    * Subclasses should override to customize behavior
    */
-  protected abstract getQuestionPrompt(): PromptTemplate;
+  protected abstract buildSystemMessage(): string;
 
   /**
    * Query the agent with a user question
