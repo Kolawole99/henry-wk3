@@ -1,15 +1,44 @@
 {
   "name": "henry-wk3",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Multi-Agent RAG Orchestration System with LangChain.js and Langfuse",
+  "main": "dist/index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "start": "tsx src/index.ts",
+    "demo": "tsx scripts/demo.ts",
+    "setup": "tsx scripts/setup-vectorstores.ts",
+    "evaluate": "tsx scripts/run-evaluation.ts",
+    "test": "vitest run",
+    "test:watch": "vitest watch",
+    "dev": "tsx watch src/index.ts"
   },
-  "keywords": [],
+  "keywords": [
+    "multi-agent",
+    "RAG",
+    "langchain",
+    "langfuse",
+    "customer-support",
+    "ai",
+    "typescript"
+  ],
   "author": "",
   "license": "ISC",
-  "description": "",
+  "dependencies": {
+    "langchain": "^0.1.30",
+    "@langchain/openai": "^0.0.25",
+    "@langchain/community": "^0.0.45",
+    "langfuse": "^3.6.0",
+    "langfuse-langchain": "^3.6.0",
+    "openai": "^4.28.0",
+    "zod": "^3.22.4",
+    "dotenv": "^16.4.1"
+  },
   "devDependencies": {
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "vitest": "^1.2.0"
   }
 }
