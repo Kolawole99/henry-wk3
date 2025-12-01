@@ -1,0 +1,64 @@
+{
+  "testQueries": [
+    {
+      "query": "How many vacation days do I get as a new employee?",
+      "expectedDepartment": "hr",
+      "description": "Basic PTO policy question"
+    },
+    {
+      "query": "I can't connect to the VPN from home. What should I do?",
+      "expectedDepartment": "it_support",
+      "description": "VPN troubleshooting"
+    },
+    {
+      "query": "What's the limit for client dinner expenses?",
+      "expectedDepartment": "finance",
+      "description": "Expense policy question"
+    },
+    {
+      "query": "I need an NDA signed by a vendor. How do I proceed?",
+      "expectedDepartment": "legal",
+      "description": "NDA process question"
+    },
+    {
+      "query": "My laptop password isn't working and I'm locked out",
+      "expectedDepartment": "it_support",
+      "description": "Password reset request"
+    },
+    {
+      "query": "When will I receive my expense reimbursement?",
+      "expectedDepartment": "finance",
+      "description": "Reimbursement timeline"
+    },
+    {
+      "query": "Can I work remotely full-time? What's the policy?",
+      "expectedDepartment": "hr",
+      "description": "Remote work policy"
+    },
+    {
+      "query": "What are our GDPR compliance obligations?",
+      "expectedDepartment": "legal",
+      "description": "Data privacy compliance"
+    },
+    {
+      "query": "How do I install Slack on my work computer?",
+      "expectedDepartment": "it_support",
+      "description": "Software installation"
+    },
+    {
+      "query": "What's the deadline for performance reviews this year?",
+      "expectedDepartment": "hr",
+      "description": "Performance review process"
+    },
+    {
+      "query": "Do I need a contract reviewed before signing with this new vendor?",
+      "expectedDepartment": "legal",
+      "description": "Contract review process"
+    },
+    {
+      "query": "Can I expense my home internet since I work remotely?",
+      "expectedDepartment": "finance",
+      "description": "Remote work expense eligibility"
+    }
+  ]
+}

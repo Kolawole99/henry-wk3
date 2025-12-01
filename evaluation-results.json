@@ -1,0 +1,244 @@
+{
+  "totalQueries": 12,
+  "correctRouting": 12,
+  "routingAccuracy": 100,
+  "averageConfidence": 0.9016666666666664,
+  "averageQualityScore": 9.441666666666668,
+  "averageResponseTime": 13074.416666666666,
+  "resultsByDepartment": {
+    "hr": {
+      "total": 3,
+      "correct": 3,
+      "accuracy": 100,
+      "avgConfidence": 0.8833333333333333,
+      "avgQualityScore": 9.766666666666667
+    },
+    "it_support": {
+      "total": 3,
+      "correct": 3,
+      "accuracy": 100,
+      "avgConfidence": 0.9499999999999998,
+      "avgQualityScore": 9.233333333333333
+    },
+    "finance": {
+      "total": 3,
+      "correct": 3,
+      "accuracy": 100,
+      "avgConfidence": 0.8666666666666667,
+      "avgQualityScore": 9.6
+    },
+    "legal": {
+      "total": 3,
+      "correct": 3,
+      "accuracy": 100,
+      "avgConfidence": 0.9066666666666666,
+      "avgQualityScore": 9.166666666666668
+    }
+  },
+  "detailedResults": [
+    {
+      "query": "How many vacation days do I get as a new employee?",
+      "expectedDepartment": "hr",
+      "actualDepartment": "hr",
+      "correct": true,
+      "confidence": 0.95,
+      "qualityScore": {
+        "relevance": 10,
+        "accuracy": 10,
+        "completeness": 10,
+        "tone": 10,
+        "citationQuality": 10,
+        "overallScore": 10,
+        "feedback": "The response perfectly addresses the user's question by providing detailed information on the vacation days for new employees, including accrual rates and usage policies. The information is accurate, complete, and supported by relevant HR policy documents. The tone is professional and helpful, with clear citations for further reference."
+      },
+      "responseTime": 8931
+    },
+    {
+      "query": "I can't connect to the VPN from home. What should I do?",
+      "expectedDepartment": "it_support",
+      "actualDepartment": "it_support",
+      "correct": true,
+      "confidence": 0.95,
+      "qualityScore": {
+        "relevance": 9,
+        "accuracy": 8,
+        "completeness": 9,
+        "tone": 9,
+        "citationQuality": 8,
+        "overallScore": 8.7,
+        "feedback": "The response is highly relevant, accurate, and comprehensive, providing step-by-step guidance to troubleshoot VPN connection issues. The tone is empathetic and supportive, encouraging the user to seek further help if needed. Citations are included to support troubleshooting steps."
+      },
+      "responseTime": 16878
+    },
+    {
+      "query": "What's the limit for client dinner expenses?",
+      "expectedDepartment": "finance",
+      "actualDepartment": "finance",
+      "correct": true,
+      "confidence": 0.9,
+      "qualityScore": {
+        "relevance": 10,
+        "accuracy": 10,
+        "completeness": 10,
+        "tone": 10,
+        "citationQuality": 10,
+        "overallScore": 10,
+        "feedback": "The response perfectly addresses the user's query by providing the specific limit for client dinner expenses, along with detailed guidelines, approval processes, timelines, and examples. The information is accurate, comprehensive, and well-supported by relevant source documents. The tone is professional and helpful, and proper citations are included for transparency."
+      },
+      "responseTime": 10189
+    },
+    {
+      "query": "I need an NDA signed by a vendor. How do I proceed?",
+      "expectedDepartment": "legal",
+      "actualDepartment": "legal",
+      "correct": true,
+      "confidence": 0.92,
+      "qualityScore": {
+        "relevance": 9,
+        "accuracy": 9,
+        "completeness": 10,
+        "tone": 9,
+        "citationQuality": 10,
+        "overallScore": 9.3,
+        "feedback": "The response is highly relevant, accurate, and comprehensive, providing detailed steps and documentation. The tone is professional and helpful, with clear citations to relevant source documents."
+      },
+      "responseTime": 14997
+    },
+    {
+      "query": "My laptop password isn't working and I'm locked out",
+      "expectedDepartment": "it_support",
+      "actualDepartment": "it_support",
+      "correct": true,
+      "confidence": 0.95,
+      "qualityScore": {
+        "relevance": 10,
+        "accuracy": 9,
+        "completeness": 10,
+        "tone": 10,
+        "citationQuality": 10,
+        "overallScore": 9.6,
+        "feedback": "The response is highly relevant, comprehensive, and maintains a professional and empathetic tone throughout. It provides detailed steps to address the password issue, with accurate information and clear citations to source documents."
+      },
+      "responseTime": 16965
+    },
+    {
+      "query": "When will I receive my expense reimbursement?",
+      "expectedDepartment": "finance",
+      "actualDepartment": "finance",
+      "correct": true,
+      "confidence": 0.85,
+      "qualityScore": {
+        "relevance": 9,
+        "accuracy": 10,
+        "completeness": 10,
+        "tone": 9,
+        "citationQuality": 10,
+        "overallScore": 9.4,
+        "feedback": "The response is highly relevant, accurate, and comprehensive, covering the reimbursement process, timelines, and required documentation effectively. The tone is professional and helpful, with clear citations provided for the source documents."
+      },
+      "responseTime": 11521
+    },
+    {
+      "query": "Can I work remotely full-time? What's the policy?",
+      "expectedDepartment": "hr",
+      "actualDepartment": "hr",
+      "correct": true,
+      "confidence": 0.85,
+      "qualityScore": {
+        "relevance": 10,
+        "accuracy": 10,
+        "completeness": 10,
+        "tone": 10,
+        "citationQuality": 10,
+        "overallScore": 10,
+        "feedback": "The response perfectly addresses the user's question by providing detailed eligibility criteria and expectations for full-time remote work. It is accurate, comprehensive, and includes clear citations for the Remote and Hybrid Work Policy. The tone is professional and helpful, guiding the user on where to find more information if needed."
+      },
+      "responseTime": 11986
+    },
+    {
+      "query": "What are our GDPR compliance obligations?",
+      "expectedDepartment": "legal",
+      "actualDepartment": "legal",
+      "correct": true,
+      "confidence": 0.85,
+      "qualityScore": {
+        "relevance": 8,
+        "accuracy": 9,
+        "completeness": 9,
+        "tone": 9,
+        "citationQuality": 10,
+        "overallScore": 8.9,
+        "feedback": "The response is highly relevant, accurate, and comprehensive, covering key GDPR compliance obligations. The tone is professional and helpful, guiding the user on next steps and providing clear sources for further information."
+      },
+      "responseTime": 14280
+    },
+    {
+      "query": "How do I install Slack on my work computer?",
+      "expectedDepartment": "it_support",
+      "actualDepartment": "it_support",
+      "correct": true,
+      "confidence": 0.95,
+      "qualityScore": {
+        "relevance": 10,
+        "accuracy": 9,
+        "completeness": 9,
+        "tone": 10,
+        "citationQuality": 10,
+        "overallScore": 9.4,
+        "feedback": "The response perfectly addresses the user's question by providing detailed step-by-step instructions for installing Slack on both macOS and Windows. The information is accurate, comprehensive, and well-cited. The tone is professional and helpful, ensuring the user feels supported throughout the process."
+      },
+      "responseTime": 15971
+    },
+    {
+      "query": "What's the deadline for performance reviews this year?",
+      "expectedDepartment": "hr",
+      "actualDepartment": "hr",
+      "correct": true,
+      "confidence": 0.85,
+      "qualityScore": {
+        "relevance": 9,
+        "accuracy": 10,
+        "completeness": 9,
+        "tone": 9,
+        "citationQuality": 10,
+        "overallScore": 9.3,
+        "feedback": "The response is highly relevant, accurate, and comprehensive, providing specific deadlines and guidance. The tone is professional and helpful, with clear citations to the Performance Review and Promotion Policy."
+      },
+      "responseTime": 9355
+    },
+    {
+      "query": "Do I need a contract reviewed before signing with this new vendor?",
+      "expectedDepartment": "legal",
+      "actualDepartment": "legal",
+      "correct": true,
+      "confidence": 0.95,
+      "qualityScore": {
+        "relevance": 10,
+        "accuracy": 9,
+        "completeness": 9,
+        "tone": 9,
+        "citationQuality": 10,
+        "overallScore": 9.3,
+        "feedback": "The response perfectly addresses the user's question by emphasizing the necessity of a contract review before signing with a new vendor. It is accurate, comprehensive, and provides detailed steps and procedures. The tone is professional and helpful, with clear citations to relevant source documents."
+      },
+      "responseTime": 16374
+    },
+    {
+      "query": "Can I expense my home internet since I work remotely?",
+      "expectedDepartment": "finance",
+      "actualDepartment": "finance",
+      "correct": true,
+      "confidence": 0.85,
+      "qualityScore": {
+        "relevance": 10,
+        "accuracy": 10,
+        "completeness": 9,
+        "tone": 9,
+        "citationQuality": 10,
+        "overallScore": 9.4,
+        "feedback": "The response perfectly addresses the user's question by clearly stating the policy on home internet expenses. It is accurate, well-supported with policy details, and maintains a professional and informative tone throughout."
+      },
+      "responseTime": 9446
+    }
+  ]
+}
